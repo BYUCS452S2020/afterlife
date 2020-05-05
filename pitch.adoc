@@ -1,0 +1,27 @@
+= afterlife
+
+== Project description
+Afterlife is a service where you can upload text, audio, and videos to be sent to specific people after you die. People will be able to create an account, upload items to be sent, and pick who and when they want those items to be sent.
+
+Every 3 months, you'll get an email from afterlife, asking you to confirm that you are still alive. If you don't click the link to confirm you are still alive, we'll consider you dead and start sending out items that you have requested to be sent.
+
+== Team
+I'm looking for one or two others to join the team.
+
+== SQL
+I've been wanting to try https://www.postgresql.org/[PostgreSQL].
+
+== No-SQL
+I have a lot of experience with https://couchdb.apache.org/[CouchDB], but I'd be open try trying something else out.
+
+== Business
+Everyone can upload 5 items to be sent out via email for free.
+
+Any items over 5 would have a fee associated with them.
+
+== Legal
+The main legal thing I wonder about is people uploading confessions to crimes.
+
+== Technical
+* Backend will be written in https://golang.org/[golang]
+* Frontend will most likely be done in https://angular.io/[Angular], but I'd be open to learing React or Vue.

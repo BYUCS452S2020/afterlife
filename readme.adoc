@@ -1,0 +1,3 @@
+= afterlife
+
+Check out the link:pitch.adoc[project pitch].
