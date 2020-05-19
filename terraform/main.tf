@@ -1,14 +1,14 @@
-// variable "do_token" {}
+variable "do_token" {}
 
 provider "digitalocean" {
-  // token = var.do_token
+  token = var.do_token
 }
 
 terraform {
   backend "s3" {
+    bucket                      = "terraform-state-storage"
     endpoint                    = "sfo2.digitaloceanspaces.com"
     region                      = "us-west-1"
-    bucket                      = "terraform-state-storage"
     key                         = "terraform.tfstate"
     skip_requesting_account_id  = true
     skip_credentials_validation = true
