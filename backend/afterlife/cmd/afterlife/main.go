@@ -73,9 +73,13 @@ func main() {
 		return c.String(http.StatusOK, "healthy")
 	})
 
-	e.PUT("/login", handlers.Login)
-	e.GET("/user", handlers.User)
-	e.GET("/timeline", handlers.Timeline)
+	api := e.Group("/api")
+
+	api.POST("/login", handlers.Login)
+	api.POST("/logout", handlers.Logout)
+
+	api.GET("/user", handlers.User)
+	api.GET("/timeline", handlers.Timeline)
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {

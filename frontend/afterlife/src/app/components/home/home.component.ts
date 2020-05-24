@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {}
 
-  toLogin = () => {
-    window.location.pathname = "/login"
+  login = () => {
+    window.location.pathname = "/timeline"
   }
 }
