@@ -6,6 +6,16 @@ import {catchError, map} from 'rxjs/operators';
 import {ApiService} from "./api.service";
 
 export class Event {
+  name: string;
+  at: Date;
+  type: string;
+  email: Email;
+}
+
+export class Email {
+  to: string[];
+  subject: string;
+  body: string;
 }
 
 @Injectable({
@@ -14,7 +24,7 @@ export class Event {
 export class TimelineResolver implements Resolve<Event[]> {
   constructor(private api: ApiService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Event[]> | Observable<never> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Event[]> {
     return this.api.getTimeline().pipe(
       map(data => data),
       catchError(err => {
@@ -22,6 +32,6 @@ export class TimelineResolver implements Resolve<Event[]> {
         this.router.navigate(["/login"])
         return EMPTY;
       })
-    )
+    );
   }
 }

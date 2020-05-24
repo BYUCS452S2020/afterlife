@@ -10,6 +10,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatChipsModule} from '@angular/material/chips';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './components/login/login.component';
@@ -34,6 +35,7 @@ import {TimelineComponent} from './components/timeline/timeline.component';
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
+    MatChipsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

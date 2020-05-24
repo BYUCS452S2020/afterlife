@@ -7,3 +7,46 @@
 		<button mat-button (pointerup)="logout()">Logout</button>
 	</div>
 </mat-toolbar>
+
+<div class="container">
+	<mat-card *ngFor="let event of timeline" class="event">
+		<mat-card-header>
+			<mat-card-title>{{event?.name}}</mat-card-title>
+			<mat-card-subtitle>{{event?.at | date}}</mat-card-subtitle>
+
+			<span class="fill-remaining-space"></span>
+			<button mat-button (pointerup)="edit(event)">Edit</button>
+		</mat-card-header>
+
+		<ng-container [ngSwitch]="event?.type">
+			<mat-card-content *ngSwitchCase="'email'" class="event-email">
+				<mat-form-field class="to" disabled>
+					<mat-label>To</mat-label>
+
+					<mat-chip-list #to>
+						<mat-chip *ngFor="let to of event?.email?.to">
+							{{to}}
+						</mat-chip>
+
+						<input [matChipInputFor]="to" />
+					</mat-chip-list>
+				</mat-form-field>
+
+				<mat-form-field class="subject" disabled>
+					<mat-label>Subject</mat-label>
+					<input matInput [value]="event?.email?.subject" />
+				</mat-form-field>
+
+				<mat-form-field class="body" disabled>
+					<mat-label>Body</mat-label>
+					<textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10"
+						[value]="event?.email?.body"></textarea>
+				</mat-form-field>
+			</mat-card-content>
+
+			<mat-card-content *ngSwitchDefault>
+				<span>I don't know how to show {{event?.type}}.</span>
+			</mat-card-content>
+		</ng-container>
+	</mat-card>
+</div>
