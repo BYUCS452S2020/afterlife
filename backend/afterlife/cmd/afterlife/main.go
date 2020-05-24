@@ -8,7 +8,7 @@ import (
 	"os"
 
 	"github.com/byuoitav/afterlife/handlers"
-	"github.com/byuoitav/afterlife/mock"
+	"github.com/byuoitav/afterlife/pg"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/spf13/pflag"
@@ -20,10 +20,16 @@ func main() {
 	var (
 		port     int
 		logLevel int8
+
+		dbUsername string
+		dbName     string
 	)
 
 	pflag.IntVarP(&port, "port", "P", 8080, "port to run the server on")
 	pflag.Int8VarP(&logLevel, "log-level", "L", 0, "level to log at. refer to https://godoc.org/go.uber.org/zap/zapcore#Level for options")
+
+	pflag.StringVar(&dbUsername, "db-username", "", "username to connect to postgres with")
+	pflag.StringVar(&dbName, "db-name", "afterlife", "name of the postgres database to use")
 	pflag.Parse()
 
 	// build the logger
@@ -51,15 +57,20 @@ func main() {
 		ErrorOutputPaths: []string{"stderr"},
 	}
 
-	plain, err := config.Build()
+	log, err := config.Build()
 	if err != nil {
 		fmt.Printf("unable to build logger: %s", err)
 		os.Exit(1)
 	}
 
+	pgData, err := pg.New(dbUsername, dbName)
+	if err != nil {
+		log.Fatal("unable to connect to database", zap.Error(err))
+	}
+
 	handlers := handlers.Handlers{
-		Logger:      plain,
-		DataService: &mock.DataService{},
+		Logger:      log,
+		DataService: pgData,
 	}
 
 	e := echo.New()
@@ -75,6 +86,7 @@ func main() {
 
 	api := e.Group("/api")
 
+	api.POST("/register", handlers.Register)
 	api.POST("/login", handlers.Login)
 	api.POST("/logout", handlers.Logout)
 
@@ -83,14 +95,14 @@ func main() {
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
-		plain.Fatal("unable to bind listener", zap.Error(err))
+		log.Fatal("unable to bind listener", zap.Error(err))
 	}
 
-	plain.Info("Starting server", zap.String("on", lis.Addr().String()))
+	log.Info("Starting server", zap.String("on", lis.Addr().String()))
 	err = e.Server.Serve(lis)
 	switch {
 	case errors.Is(err, http.ErrServerClosed):
 	case err != nil:
-		plain.Fatal("failed to serve", zap.Error(err))
+		log.Fatal("failed to serve", zap.Error(err))
 	}
 }

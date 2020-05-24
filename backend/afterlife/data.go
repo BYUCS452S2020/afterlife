@@ -32,7 +32,7 @@ type EventEmail struct {
 }
 
 type DataService interface {
-	CreateUser(context.Context, CreateUserRequest) (string, error)
+	Register(context.Context, RegisterRequest) (string, error)
 	Login(ctx context.Context, username, password string) (string, error)
 	User(context.Context, string) (User, error)
 	Timeline(context.Context, string) (Timeline, error)

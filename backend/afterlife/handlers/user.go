@@ -9,6 +9,29 @@ import (
 	"github.com/labstack/echo"
 )
 
+func (h *Handlers) Register(c echo.Context) error {
+	ctx, cancel := context.WithTimeout(c.Request().Context(), 5*time.Second)
+	defer cancel()
+
+	var req afterlife.RegisterRequest
+	if err := c.Bind(&req); err != nil {
+		return err
+	}
+
+	tok, err := h.DataService.Register(ctx, req)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+
+	c.SetCookie(&http.Cookie{
+		Name:    "afterlife-token",
+		Value:   tok,
+		Expires: time.Now().Add(30 * time.Minute),
+	})
+
+	return c.NoContent(http.StatusOK)
+}
+
 func (h *Handlers) Login(c echo.Context) error {
 	ctx, cancel := context.WithTimeout(c.Request().Context(), 5*time.Second)
 	defer cancel()
