@@ -10,7 +10,7 @@ create table users (
 	last_name text NOT NULL,
 	created_on timestamp NOT NULL,
 	last_login timestamp,
-	verified_alive timestamp
+	verified_alive timestamp NOT NULL
 );
 
 create table tokens (
@@ -19,7 +19,8 @@ create table tokens (
 		REFERENCES users(id)
 		ON UPDATE CASCADE
 		ON DELETE CASCADE,
-	token text NOT NULL
+	token text UNIQUE NOT NULL,
+	created_on timestamp NOT NULL
 );
 
 create table events (

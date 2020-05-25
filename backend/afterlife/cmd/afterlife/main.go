@@ -88,10 +88,12 @@ func main() {
 
 	api.POST("/register", handlers.Register)
 	api.POST("/login", handlers.Login)
-	api.POST("/logout", handlers.Logout)
 
-	api.GET("/user", handlers.User)
-	api.GET("/timeline", handlers.Timeline)
+	auth := api.Group("", handlers.Authenticate)
+	auth.POST("/logout", handlers.Logout)
+	auth.GET("/user", handlers.User)
+	auth.POST("/event", handlers.CreateEvent)
+	auth.GET("/timeline", handlers.Timeline)
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {

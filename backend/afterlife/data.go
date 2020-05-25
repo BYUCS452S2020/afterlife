@@ -5,7 +5,10 @@ import (
 	"time"
 )
 
+type UserID string
+
 type User struct {
+	ID            UserID    `json:"-"`
 	FirstName     string    `json:"firstName"`
 	LastName      string    `json:"lastName"`
 	VerifiedAlive time.Time `json:"verifiedAlive"`
@@ -32,8 +35,10 @@ type EventEmail struct {
 }
 
 type DataService interface {
-	Register(context.Context, RegisterRequest) (string, error)
-	Login(ctx context.Context, username, password string) (string, error)
+	Register(context.Context, RegisterRequest) error
+	Login(context.Context, LoginRequest) (string, error)
 	User(context.Context, string) (User, error)
-	Timeline(context.Context, string) (Timeline, error)
+
+	CreateEvent(context.Context, UserID, Event) error
+	Timeline(context.Context, UserID) (Timeline, error)
 }
