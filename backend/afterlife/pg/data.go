@@ -48,6 +48,7 @@ func (u user) convert() afterlife.User {
 func (e event) convert() afterlife.Event {
 	var event afterlife.Event
 
+	event.ID = afterlife.EventID(strconv.Itoa(e.ID))
 	event.Name = e.Name
 	event.At = e.At
 	event.Type = afterlife.EventType(e.Type)

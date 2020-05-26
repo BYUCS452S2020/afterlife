@@ -92,8 +92,11 @@ func main() {
 	auth := api.Group("", handlers.Authenticate)
 	auth.POST("/logout", handlers.Logout)
 	auth.GET("/user", handlers.User)
-	auth.POST("/event", handlers.CreateEvent)
+
 	auth.GET("/timeline", handlers.Timeline)
+	auth.DELETE("/event/:id", handlers.DeleteEvent)
+	auth.PUT("/event", handlers.UpdateEvent)
+	auth.POST("/event", handlers.CreateEvent)
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {

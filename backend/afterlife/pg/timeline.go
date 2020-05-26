@@ -46,6 +46,68 @@ func (d *DataService) CreateEvent(ctx context.Context, id afterlife.UserID, even
 	return nil
 }
 
+func (d *DataService) UpdateEvent(ctx context.Context, id afterlife.UserID, event afterlife.Event) error {
+	var stmt string
+	var args []interface{}
+
+	switch event.Type {
+	case afterlife.EventTypeEmail:
+		stmt = "UPDATE events SET name=$3, at=$4, event_type=$5, email_to=$6, email_subject=$7, email_body=$8 WHERE id=$1 AND user_id=$2"
+		args = []interface{}{
+			event.ID,
+			id,
+			event.Name,
+			event.At,
+			event.Type,
+			pq.Array(event.Email.To),
+			event.Email.Subject,
+			event.Email.Body,
+		}
+	default:
+		return errors.New("invalid event type")
+	}
+
+	tx, err := d.db.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
+
+	_, err = tx.ExecContext(ctx, stmt, args...)
+	if err != nil {
+		return err
+	}
+
+	if err := tx.Commit(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (d *DataService) DeleteEvent(ctx context.Context, id afterlife.UserID, eventID afterlife.EventID) error {
+	tx, err := d.db.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
+
+	stmt := "DELETE FROM events WHERE id=$1 AND user_id=$2"
+	args := []interface{}{
+		eventID,
+		id,
+	}
+
+	_, err = tx.ExecContext(ctx, stmt, args...)
+	if err != nil {
+		return err
+	}
+
+	if err := tx.Commit(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (d *DataService) Timeline(ctx context.Context, id afterlife.UserID) (afterlife.Timeline, error) {
 	var events []event
 

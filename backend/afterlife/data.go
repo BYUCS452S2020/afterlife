@@ -8,7 +8,7 @@ import (
 type UserID string
 
 type User struct {
-	ID            UserID    `json:"-"`
+	ID            UserID    `json:"id"`
 	FirstName     string    `json:"firstName"`
 	LastName      string    `json:"lastName"`
 	VerifiedAlive time.Time `json:"verifiedAlive"`
@@ -20,7 +20,10 @@ const (
 	EventTypeEmail EventType = "email"
 )
 
+type EventID string
+
 type Event struct {
+	ID   EventID   `json:"id"`
 	Name string    `json:"name"`
 	At   time.Time `json:"at"`
 	Type EventType `json:"type"`
@@ -40,5 +43,7 @@ type DataService interface {
 	User(context.Context, string) (User, error)
 
 	CreateEvent(context.Context, UserID, Event) error
+	DeleteEvent(context.Context, UserID, EventID) error
+	UpdateEvent(context.Context, UserID, Event) error
 	Timeline(context.Context, UserID) (Timeline, error)
 }
