@@ -23,4 +23,8 @@ export class ApiService {
   logout = () => {
     return this.http.post("/api/logout", {});
   }
+
+  createEvent = (event: Event) => {
+    return this.http.post("/api/event", event);
+  }
 }

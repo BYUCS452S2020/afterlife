@@ -1,0 +1,57 @@
+<div mat-dialog-title>
+	<span class="mat-h3">New Event</span>
+</div>
+
+<div mat-dialog-content class="event-form">
+	<mat-form-field>
+		<mat-label>Name</mat-label>
+		<input matInput [(ngModel)]="data.event.name" />
+	</mat-form-field>
+
+	<mat-form-field>
+		<mat-label>Date</mat-label>
+		<input matInput [(ngModel)]="data.event.at" [min]="today" [matDatepicker]="datePicker" />
+		<mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+		<mat-datepicker #datePicker></mat-datepicker>
+	</mat-form-field>
+
+	<mat-form-field>
+		<mat-label>Type</mat-label>
+		<mat-select [(ngModel)]="data.event.type">
+			<mat-option value="email">Email</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<ng-container [ngSwitch]="data?.event?.type">
+		<ng-container *ngSwitchCase="'email'">
+			<mat-form-field>
+				<mat-label>To</mat-label>
+				<mat-chip-list #to>
+					<mat-chip *ngFor="let addr of data?.event?.email?.to" (removed)="removeTo(addr)">
+						{{addr}}
+						<mat-icon matChipRemove>cancel</mat-icon>
+					</mat-chip>
+
+					<input [matChipInputFor]="to" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+						matChipInputAddOnBlur (matChipInputTokenEnd)="addTo($event)" />
+				</mat-chip-list>
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-label>Subject</mat-label>
+				<input matInput [(ngModel)]="data.event.email.subject" />
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-label>Body</mat-label>
+				<textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10"
+					[(ngModel)]="data.event.email.body"></textarea>
+			</mat-form-field>
+		</ng-container>
+	</ng-container>
+</div>
+
+<div mat-dialog-actions>
+	<button mat-button mat-dialog-close>Cancel</button>
+	<button mat-button (pointerup)="save()">Save</button>
+</div>

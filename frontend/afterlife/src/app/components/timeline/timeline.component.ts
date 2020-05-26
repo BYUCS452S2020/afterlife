@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
 
 import {ApiService} from "../../services/api.service";
 import {Event} from "../../services/timeline-resolver.service";
+import {EventDialogComponent} from "../../dialogs/event-dialog/event-dialog.component";
 
 @Component({
   selector: 'app-timeline',
@@ -12,7 +14,7 @@ import {Event} from "../../services/timeline-resolver.service";
 export class TimelineComponent implements OnInit {
   timeline: Event[] = [];
 
-  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) {}
+  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.timeline = this.route.snapshot.data["timeline"];
@@ -25,5 +27,14 @@ export class TimelineComponent implements OnInit {
     }, err => {
       console.warn("unable to logout", err);
     })
+  }
+
+  newEvent = () => {
+    const dialogRef = this.dialog.open(EventDialogComponent, {
+      width: "66vw",
+      data: {
+        event: new Event()
+      }
+    });
   }
 }

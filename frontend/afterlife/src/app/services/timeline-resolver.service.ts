@@ -6,14 +6,15 @@ import {catchError, map} from 'rxjs/operators';
 import {ApiService} from "./api.service";
 
 export class Event {
+  id: string;
   name: string;
   at: Date;
   type: string;
-  email: Email;
+  email: Email = new Email();
 }
 
 export class Email {
-  to: string[];
+  to: string[] = [];
   subject: string;
   body: string;
 }

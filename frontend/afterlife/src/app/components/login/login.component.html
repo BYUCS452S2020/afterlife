@@ -9,12 +9,12 @@
 		<mat-card-content class="content">
 			<mat-form-field appearance="fill">
 				<mat-label>Email</mat-label>
-				<input matInput placeholder="me@example.com" required>
+				<input matInput [(ngModel)]="email" placeholder="me@example.com" required>
 			</mat-form-field>
 
 			<mat-form-field appearance="fill">
 				<mat-label>Password</mat-label>
-				<input matInput [type]="hide ? 'password' : 'text'" required>
+				<input matInput [(ngModel)]="password" [type]="hide ? 'password' : 'text'" required>
 				<button mat-icon-button matSuffix (click)="hide = !hide">
 					<mat-icon>{{hide ? "visibility_off" : "visibility"}}</mat-icon>
 				</button>

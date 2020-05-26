@@ -10,13 +10,15 @@ import {ApiService} from "../../services/api.service";
 })
 export class LoginComponent implements OnInit {
   hide = true;
+  email = "";
+  password = "";
 
   constructor(private api: ApiService, private router: Router) {}
 
   ngOnInit() {}
 
   login = () => {
-    this.api.login("hi", "password").subscribe(() => {
+    this.api.login(this.email, this.password).subscribe(() => {
       console.log("redirecting to timeline");
       this.router.navigate(["/timeline"]);
     }, err => {
