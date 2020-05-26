@@ -5,6 +5,7 @@ import {HomeComponent} from "./components/home/home.component";
 import {LoginComponent} from "./components/login/login.component";
 import {TimelineComponent} from "./components/timeline/timeline.component";
 import {TimelineResolver} from './services/timeline-resolver.service';
+import {RegisterComponent} from './components/register/register.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: "login",
     component: LoginComponent,
+  },
+  {
+    path: "register",
+    component: RegisterComponent,
   },
   {
     path: "timeline",

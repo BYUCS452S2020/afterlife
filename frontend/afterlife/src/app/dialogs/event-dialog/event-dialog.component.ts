@@ -44,6 +44,16 @@ export class EventDialogComponent {
     }
   }
 
+  delete = () => {
+    if (this.data.event.id) {
+      this.api.deleteEvent(this.data.event.id).subscribe(() => {
+        this.dialogRef.close();
+      }, err => {
+        console.warn("failed to delete event", err);
+      });
+    }
+  }
+
   addTo = (event: MatChipInputEvent) => {
     const input = event.input;
     const value = event.value;

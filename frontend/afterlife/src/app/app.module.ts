@@ -22,6 +22,7 @@ import {LoginComponent} from './components/login/login.component';
 import {HomeComponent} from './components/home/home.component';
 import {TimelineComponent} from './components/timeline/timeline.component';
 import {EventDialogComponent} from './dialogs/event-dialog/event-dialog.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {EventDialogComponent} from './dialogs/event-dialog/event-dialog.componen
     HomeComponent,
     TimelineComponent,
     EventDialogComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

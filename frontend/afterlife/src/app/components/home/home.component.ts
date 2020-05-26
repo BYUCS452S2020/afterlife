@@ -14,4 +14,8 @@ export class HomeComponent implements OnInit {
   login = () => {
     window.location.pathname = "/timeline"
   }
+
+  register = () => {
+    window.location.pathname = "/register"
+  }
 }

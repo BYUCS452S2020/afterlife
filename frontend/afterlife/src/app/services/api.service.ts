@@ -20,6 +20,15 @@ export class ApiService {
     });
   }
 
+  register = (email: string, password: string, first: string, last: string) => {
+    return this.http.post("/api/register", {
+      email: email,
+      password: password,
+      firstName: first,
+      lastName: last
+    });
+  }
+
   logout = () => {
     return this.http.post("/api/logout", {});
   }
@@ -30,5 +39,9 @@ export class ApiService {
 
   updateEvent = (event: Event) => {
     return this.http.put("/api/event", event);
+  }
+
+  deleteEvent = (id: string) => {
+    return this.http.delete("/api/event/" + id);
   }
 }
