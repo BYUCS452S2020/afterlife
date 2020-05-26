@@ -3,7 +3,6 @@ package pg
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"github.com/byuoitav/afterlife"
 	"github.com/lib/pq"
@@ -115,8 +114,6 @@ func (d *DataService) Timeline(ctx context.Context, id afterlife.UserID) (afterl
 	if err != nil {
 		return afterlife.Timeline{}, err
 	}
-
-	fmt.Printf("events: %+v\n", events)
 
 	var ret afterlife.Timeline
 	for _, event := range events {

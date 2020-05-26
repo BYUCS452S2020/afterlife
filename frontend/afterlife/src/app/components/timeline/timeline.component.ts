@@ -36,5 +36,22 @@ export class TimelineComponent implements OnInit {
         event: new Event()
       }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    })
+  }
+
+  editEvent = (event: Event) => {
+    const dialogRef = this.dialog.open(EventDialogComponent, {
+      width: "66vw",
+      data: {
+        event: event,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      window.location.reload();
+    })
   }
 }

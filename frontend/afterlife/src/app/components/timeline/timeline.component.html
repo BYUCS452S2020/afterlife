@@ -15,7 +15,7 @@
 			<mat-card-subtitle>{{event?.at | date}}</mat-card-subtitle>
 
 			<span class="fill-remaining-space"></span>
-			<button mat-button (pointerup)="edit(event)">Edit</button>
+			<button mat-button (pointerup)="editEvent(event)">Edit</button>
 		</mat-card-header>
 
 		<ng-container [ngSwitch]="event?.type">

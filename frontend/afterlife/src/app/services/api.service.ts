@@ -27,4 +27,8 @@ export class ApiService {
   createEvent = (event: Event) => {
     return this.http.post("/api/event", event);
   }
+
+  updateEvent = (event: Event) => {
+    return this.http.put("/api/event", event);
+  }
 }

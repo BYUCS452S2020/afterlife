@@ -29,12 +29,19 @@ export class EventDialogComponent {
   save = () => {
     console.log("this.event", this.data.event);
 
-    this.api.createEvent(this.data.event).subscribe(() => {
-      this.dialogRef.close();
-      window.location.reload();
-    }, err => {
-      console.warn("failed to save event", err);
-    });
+    if (this.data.event.id) {
+      this.api.updateEvent(this.data.event).subscribe(() => {
+        this.dialogRef.close(this.data.event);
+      }, err => {
+        console.warn("failed to save event", err);
+      });
+    } else {
+      this.api.createEvent(this.data.event).subscribe(() => {
+        this.dialogRef.close(this.data.event);
+      }, err => {
+        console.warn("failed to save event", err);
+      });
+    }
   }
 
   addTo = (event: MatChipInputEvent) => {

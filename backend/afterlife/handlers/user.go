@@ -42,7 +42,7 @@ func (h *Handlers) Login(c echo.Context) error {
 	c.SetCookie(&http.Cookie{
 		Name:    "afterlife-token",
 		Value:   tok,
-		Expires: time.Now().Add(30 * time.Minute),
+		Expires: time.Now().Add(24 * time.Hour),
 	})
 
 	return c.NoContent(http.StatusOK)
