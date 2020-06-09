@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"net"
@@ -8,7 +9,7 @@ import (
 	"os"
 
 	"github.com/byuoitav/afterlife/handlers"
-	"github.com/byuoitav/afterlife/pg"
+	"github.com/byuoitav/afterlife/mongo"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/spf13/pflag"
@@ -63,14 +64,19 @@ func main() {
 		os.Exit(1)
 	}
 
-	pgData, err := pg.New(dbUsername, dbName)
+	//pgData, err := pg.New(dbUsername, dbName)
+	//if err != nil {
+	//	log.Fatal("unable to connect to database", zap.Error(err))
+	//}
+
+	ds, err := mongo.New(context.Background(), "mongodb://localhost:27017")
 	if err != nil {
-		log.Fatal("unable to connect to database", zap.Error(err))
+		log.Fatal("unable to connect to mongodb", zap.Error(err))
 	}
 
 	handlers := handlers.Handlers{
 		Logger:      log,
-		DataService: pgData,
+		DataService: ds,
 	}
 
 	e := echo.New()
