@@ -69,6 +69,7 @@ func (d *DataService) UpdateEvent(ctx context.Context, id afterlife.UserID, e af
 	}
 
 	event := event{
+		ID:   string(e.ID),
 		Name: e.Name,
 		At:   e.At,
 		Type: string(e.Type),
@@ -116,8 +117,8 @@ func (d *DataService) DeleteEvent(ctx context.Context, id afterlife.UserID, even
 	}
 	update := bson.M{
 		"$pull": bson.M{
-			"events": event{
-				ID: string(eventID),
+			"events": bson.M{
+				"id": string(eventID),
 			},
 		},
 	}
