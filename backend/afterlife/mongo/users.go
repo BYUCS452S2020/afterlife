@@ -45,25 +45,20 @@ func (d *DataService) Login(ctx context.Context, req afterlife.LoginRequest) (st
 	if err != nil {
 		return "", err
 	}
-	tok := ksuid.String()
+
+	token := token{
+		Token:   ksuid.String(),
+		Created: time.Now(),
+	}
 
 	opts := options.FindOneAndUpdate().SetUpsert(false)
-	filter := bson.M{
-		"email":    req.Email,
-		"password": req.Password,
+	filter := user{
+		Email:    req.Email,
+		Password: req.Password,
 	}
-	update := bson.D{
-		{
-			Key: "$push",
-			Value: bson.D{
-				{
-					Key: "tokens",
-					Value: bson.M{
-						"token":   tok,
-						"created": time.Now().Format(time.RFC3339),
-					},
-				},
-			},
+	update := bson.M{
+		"$push": bson.M{
+			"tokens": token,
 		},
 	}
 
@@ -72,9 +67,26 @@ func (d *DataService) Login(ctx context.Context, req afterlife.LoginRequest) (st
 		return "", fmt.Errorf("unable to insert token: %w", res.Err())
 	}
 
-	return tok, nil
+	return token.Token, nil
 }
 
 func (d *DataService) User(ctx context.Context, token string) (afterlife.User, error) {
-	return afterlife.User{}, nil
+	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+
+	filter := bson.M{
+		"tokens.token": token,
+	}
+
+	res := d.collection.FindOne(ctx, filter)
+	if res.Err() != nil {
+		return afterlife.User{}, res.Err()
+	}
+
+	var user user
+	if err := res.Decode(&user); err != nil {
+		return afterlife.User{}, fmt.Errorf("unable to parse: %w", err)
+	}
+
+	return user.convert(), nil
 }
