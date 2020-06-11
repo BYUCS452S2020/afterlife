@@ -26,4 +26,8 @@ export class RegisterComponent implements OnInit {
       console.warn("failed to login", err);
     });
   }
+
+  login = () => {
+    window.location.pathname = "/login"
+  }
 }

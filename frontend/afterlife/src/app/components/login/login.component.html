@@ -1,4 +1,12 @@
-<mat-toolbar>Afterlife</mat-toolbar>
+<mat-toolbar>
+	<span>Afterlife</span>
+
+	<span class="fill-remaining-space"></span>
+
+	<div>
+		<button mat-button (pointerup)="register()">Register</button>
+	</div>
+</mat-toolbar>
 
 <div class="container">
 	<mat-card class="card-login">

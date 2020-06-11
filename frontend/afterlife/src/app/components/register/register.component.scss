@@ -1,3 +1,7 @@
+.fill-remaining-space {
+	flex: 1 1 auto;
+}
+
 .container {
 	margin-top: 25%;
 	width: 100%;
@@ -9,8 +13,8 @@
 }
 
 .card-login {
-	height: 43%;
 	width: 33%;
+	padding-bottom: 2vh;
 
 	.header {
 		margin-bottom: 5%;

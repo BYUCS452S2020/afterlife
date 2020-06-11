@@ -28,12 +28,11 @@ func (d *DataService) Register(ctx context.Context, req afterlife.RegisterReques
 		return fmt.Errorf("unable to marshal user: %w", err)
 	}
 
-	res, err := d.collection.InsertOne(ctx, b)
+	_, err = d.collection.InsertOne(ctx, b)
 	if err != nil {
 		return fmt.Errorf("unable to insert user: %w", err)
 	}
 
-	fmt.Printf("inserted id (%T): %+v\n", res.InsertedID, res.InsertedID)
 	return nil
 }
 

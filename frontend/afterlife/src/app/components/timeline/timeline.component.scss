@@ -44,7 +44,15 @@ mat-toolbar {
 }
 
 .add {
-	position: sticky;
-	bottom: 0;
-	right: 0;
+	font-size: 1.2em;
+	height: 5vh;
+	width: 20%;
+	margin-top: 3vh;
+
+	span {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
 }
